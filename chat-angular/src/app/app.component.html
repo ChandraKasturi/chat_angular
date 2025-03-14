@@ -1,0 +1,51 @@
+<div class="chat-container">
+  <header>
+    <h1>Angular Chat</h1>
+  </header>
+  
+  <main>
+    <!-- Chat area with responses -->
+    <div class="chat-area" #chatArea>
+      <!-- Error message display -->
+      <div class="error-message" *ngIf="error">
+        {{ error }}
+      </div>
+      
+      <!-- Welcome message when no response yet -->
+      <div class="welcome-message" *ngIf="!response && !error">
+        <h2>Welcome to Angular Chat!</h2>
+        <p>Type a message below and press Send to start a conversation.</p>
+      </div>
+      
+      <!-- Response container -->
+      <div class="response-container" *ngIf="response">
+        <div class="markdown-response">
+          <!-- We're displaying markdown as plain text for now -->
+          <pre>{{ response }}</pre>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Input area for user messages -->
+    <div class="input-area">
+      <form (ngSubmit)="sendMessage()">
+        <div class="input-container">
+          <textarea 
+            [(ngModel)]="userQuery" 
+            name="userQuery" 
+            placeholder="Type your message here..." 
+            [disabled]="isLoading"
+            rows="2"
+            autocomplete="off"
+          ></textarea>
+          <button type="submit" [disabled]="isLoading || !userQuery.trim()">
+            <span *ngIf="!isLoading">Send</span>
+            <span *ngIf="isLoading" class="spinner"></span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </main>
+</div>
+
+<router-outlet />
